@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
 import { ToastrService } from "ngx-toastr";
-
 import { Client } from '../client';
 
 
@@ -17,18 +15,17 @@ export class ClientCreateComponent implements OnInit {
   clientes: Client[];
 
   constructor(
-
     private formBuilder: FormBuilder,
     private toastr: ToastrService
   ) {
-   
+
   }
 
   createClient(newClient: Client) {
     // Process checkout data here
     console.warn("el cliente fue creado", newClient);
     this.showSuccess(newClient);
-    
+
     //-----------------------------------------------------------------
     // this.clientService.createClient(newClient).subscribe(client => {
     //   this.clientes.push(client);
@@ -36,25 +33,23 @@ export class ClientCreateComponent implements OnInit {
     // });
     //------------------------------------------------------------------
     this.clientForm.reset();
-   
+
   }
 
   showSuccess(c: Client) {
-
     this.toastr.success('Creado exitosamente!', `Cliente ${c.name}`, { "progressBar": true, timeOut: 4000 });
-
   }
 
-  submit(){
-    if (this.clientForm.invalid)
-       this.createClient(this.clientForm.value)
-    else console.log('still errors');
+  cancelCreation() {
+    console.log("Cancelando ...");
+    this.clientForm.reset();
   }
+
   ngOnInit() {
     this.clientForm = this.formBuilder.group({
       name: ["", [Validators.required, Validators.minLength(2)]],
       address: ["", Validators.required],
-      email:["", [Validators.required, Validators.email]]
+      email: ["", [Validators.required, Validators.email]]
     });
   }
 }
